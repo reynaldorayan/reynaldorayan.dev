@@ -1,5 +1,4 @@
 import Section from "@/components/section";
-import { router } from "@inertiajs/react";
 import { Button } from "@nextui-org/react";
 import { forwardRef, Ref } from "react";
 
@@ -13,7 +12,11 @@ const Welcome = forwardRef<HTMLElement, WelcomeProps>(
             <Section ref={ref}>
                 <div className="min-h-screen grid justify-center">
                     <div className="flex flex-col items-center gap-8 mt-20 lg:mt-36">
-                        <h2 className="text-5xl lg:text-6xl font-semibold text-center text-white opacity-80 lg:leading-snug">
+                        <h2
+                            data-aos="fade-up"
+                            data-aos-offset="200"
+                            className="text-5xl lg:text-6xl font-semibold text-center text-white opacity-80 lg:leading-snug"
+                        >
                             Hi <span className="text-teal-500">,</span> I'm
                             <br /> Rayan <br /> Reynaldo
                             <span className="text-6xl ms-2 text-teal-500">
@@ -21,11 +24,17 @@ const Welcome = forwardRef<HTMLElement, WelcomeProps>(
                             </span>
                         </h2>
 
-                        <p className="font-medium text-lg lg:text-xl tracking-tighter text-white opacity-80">
+                        <p
+                            data-aos="fade-up"
+                            data-aos-offset="200"
+                            className="font-medium text-lg lg:text-xl tracking-tighter text-white opacity-80"
+                        >
                             Full-stack / Software Developer
                         </p>
 
                         <Button
+                            data-aos="fade-down"
+                            data-aos-offset="200"
                             onClick={() => {
                                 location.href = "/download-resume";
                             }}

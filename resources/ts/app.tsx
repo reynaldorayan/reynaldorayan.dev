@@ -15,4 +15,8 @@ createInertiaApp({
             </Providers>
         );
     },
+    progress: {
+        color: "teal",
+        showSpinner: true,
+    },
 });

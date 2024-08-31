@@ -11,7 +11,7 @@ const Section = forwardRef<HTMLElement, CustomInputProps>(
             <section
                 ref={ref}
                 data-title={title}
-                className={cn("pb-20 min-h-screen")}
+                className={cn("pb-20 lg:min-h-screen")}
             >
                 {title ? (
                     <div className="flex justify-center py-12 border-y border-gray-200/70">

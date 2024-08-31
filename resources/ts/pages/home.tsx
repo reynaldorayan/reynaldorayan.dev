@@ -8,7 +8,6 @@ import Portfolio from "@/components/sections/portfolio";
 import Skills from "@/components/sections/skills";
 import Welcome from "@/components/sections/welcome";
 import { ForwardRefExoticComponent, useMemo, useRef } from "react";
-
 export type SectionItem = {
     link: string;
     title: string;

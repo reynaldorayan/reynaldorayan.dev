@@ -77,7 +77,7 @@ const Experience = forwardRef<HTMLElement, ExperienceProps>(
     ({ title }, ref: Ref<HTMLElement>) => {
         return (
             <Section ref={ref} title={title}>
-                <div className="max-w-6xl mx-auto p-5 grid mt-20">
+                <div className="max-w-6xl mx-auto p-5 grid mt-10 lg:mt-20">
                     <div className="flex flex-col justify-center items-center lg:gap-0 gap-10">
                         <ExperienceItem
                             date="Apr - Jun 2023"

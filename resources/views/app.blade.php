@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="icon" href="{{ asset('storage/logo.png') }}" type="image/png">
+
     <title>Rayan</title>
 
     @vite('resources/ts/app.tsx')

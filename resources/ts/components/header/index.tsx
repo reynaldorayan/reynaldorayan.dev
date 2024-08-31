@@ -1,6 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { SectionItem } from "@/pages/home";
 import { cn } from "@/utils/style";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useMediaQuery } from "react-responsive";
 
 export type HeaderProps = {
     sections: SectionItem[];
@@ -12,44 +15,49 @@ const Header = ({ sections }: HeaderProps) => {
 
     const except = ["Welcome"];
 
-    const handleNavigate = useCallback((ref: React.RefObject<HTMLElement>) => {
-        // if (ref.current) {
-        //     ref.current.scrollIntoView({
-        //         behavior: "smooth",
+    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
-        //     });
-        //     setIsOpen(false);
-        // }
-        if (ref.current) {
-            const offset = 92; // Adjust based on your fixed header height
-            const topPosition =
-                ref.current.getBoundingClientRect().top +
-                window.scrollY -
-                offset;
+    const handleNavigate = useCallback(
+        (ref: React.RefObject<HTMLElement>) => {
+            if (ref.current) {
+                const offset = isMobile ? 325 : 0;
 
-            window.scrollTo({
-                top: topPosition,
-                behavior: "smooth",
-            });
+                const topPosition =
+                    ref.current.getBoundingClientRect().top +
+                    window.scrollY -
+                    offset;
 
-            setIsOpen(false);
-        }
-    }, []);
+                window.scrollTo({
+                    top: topPosition,
+                    behavior: "smooth",
+                });
+
+                setIsOpen(false);
+            }
+        },
+        [isMobile]
+    );
 
     const validSections = sections.filter(
         (section) => section.ref.current !== null
     );
 
     useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            once: false,
+        });
+
         const observerOptions = {
             root: null,
             rootMargin: "0px",
-            threshold: 0.65,
+            threshold: 0.9,
         };
 
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
+                    AOS.refreshHard();
                     const section = entry.target.getAttribute("data-title");
                     setScrolledSection(section);
                 }
@@ -96,15 +104,15 @@ const Header = ({ sections }: HeaderProps) => {
 
     return (
         <header className="bg-white shadow-lg sticky top-0 z-10">
-            <div className="w-full max-w-6xl mx-auto px-5 py-5 md:py-8 flex justify-between items-center">
+            <div className="w-full max-w-6xl mx-auto px-5 py-2 md:py-6 flex justify-between items-center">
                 <div
                     onClick={(e) => {
                         e.preventDefault();
                         scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="text-xl font-semibold text-teal-500 cursor-pointer"
+                    className="text-xl font-semibold text-teal-500 cursor-pointer flex items-center gap-3"
                 >
-                    Rayan
+                    <img src="/storage/logo.png" className="lg:h-14 lg:w-14 opacity-95 -rotate-3" />
                 </div>
 
                 {/* Desktop Menu */}

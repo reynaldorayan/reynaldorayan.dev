@@ -132,7 +132,7 @@ const Portfolio = forwardRef<HTMLElement, PortfolioProps>(
                                     className=" bg-gray-50 flex flex-col md:flex-row gap-5 h-full min-h-64 p-4 group transition-all ease-in-out"
                                 >
                                     <div className="h-full lg:w-64 flex flex-col gap-5">
-                                        <div className="overflow-hidden rounded border h-full flex">
+                                        <div className="overflow-hidden rounded border w-full md:w-96 h-56 lg:w-fit lg:h-full flex">
                                             <img
                                                 src={item.image}
                                                 alt={item.title}

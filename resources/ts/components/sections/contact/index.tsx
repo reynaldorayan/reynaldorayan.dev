@@ -2,6 +2,20 @@ import Section from "@/components/section";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { forwardRef, Ref } from "react";
 import { RiFacebookLine, RiGithubLine, RiLinkedinLine } from "react-icons/ri";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { router } from "@inertiajs/react";
+import Swal from "sweetalert2";
+
+const schema = z.object({
+    name: z.string().min(1, "Name is required"),
+    subject: z.string().min(1, "Subject is required"),
+    email: z.string().email("Please enter a valid email address"),
+    message: z.string().min(1, "Message is required"),
+});
+
+type FormData = z.infer<typeof schema>;
 
 type ContactProps = {
     title?: string;
@@ -9,63 +23,115 @@ type ContactProps = {
 
 const Contact = forwardRef<HTMLElement, ContactProps>(
     ({ title }, ref: Ref<HTMLInputElement>) => {
+        const {
+            register,
+            handleSubmit,
+            reset,
+            formState: { errors },
+        } = useForm<FormData>({
+            resolver: zodResolver(schema),
+        });
+
+        const onSubmit = (data: FormData) => {
+            router.post("/send-mail", data, {
+                onFinish() {
+                    reset();
+
+                    Swal.fire({
+                        title: "Email Sent!",
+                        text: "Your message has been successfully delivered.",
+                        icon: "success",
+                    });
+                },
+            });
+        };
+
         return (
             <Section ref={ref} title={title}>
                 <div className="w-full max-w-6xl mx-auto mt-20 px-5">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-36">
-                        <div className="flex flex-col gap-5">
-                            <div className="flex flex-col sm:flex-row gap-5">
-                                <Input
-                                    placeholder="Name*"
-                                    radius="none"
-                                    size="lg"
-                                    classNames={{
-                                        input: "text-sm ",
-                                        inputWrapper: "px-5",
-                                    }}
-                                />
-                                <Input
-                                    placeholder="Email*"
-                                    radius="none"
-                                    size="lg"
-                                    type="email"
-                                    classNames={{
-                                        input: "text-sm ",
-                                        inputWrapper: "px-5",
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <Input
-                                    placeholder="Subject*"
-                                    radius="none"
-                                    size="lg"
-                                    classNames={{
-                                        input: "text-sm ",
-                                        inputWrapper: "px-5",
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <Textarea
-                                    placeholder="Message*"
-                                    radius="none"
-                                    size="lg"
-                                    classNames={{
-                                        input: "text-sm ",
-                                        inputWrapper: "px-5 pt-5",
-                                    }}
-                                />
-                            </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-36">
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="flex flex-col gap-5">
+                                <div className="flex flex-col sm:flex-row gap-5">
+                                    <Input
+                                        isClearable
+                                        placeholder="Name*"
+                                        radius="none"
+                                        size="lg"
+                                        classNames={{
+                                            input: "text-sm text-gray-600 font-light",
+                                            inputWrapper:
+                                                "px-5 rounded bg-gray-50/80 border-gray-100 focus-within:!bg-teal-50 focus-within:border-teal-100 border",
+                                        }}
+                                        {...register("name")}
+                                        errorMessage={errors.name?.message}
+                                        isInvalid={errors.name?.message != null}
+                                    />
+                                    <Input
+                                        isClearable
+                                        placeholder="Email*"
+                                        radius="none"
+                                        size="lg"
+                                        type="email"
+                                        classNames={{
+                                            input: "text-sm text-gray-600 font-light",
+                                            inputWrapper:
+                                                "px-5 rounded bg-gray-50/80 border-gray-100 focus-within:!bg-teal-50 focus-within:border-teal-100 border",
+                                        }}
+                                        {...register("email")}
+                                        errorMessage={errors.email?.message}
+                                        isInvalid={
+                                            errors.email?.message != null
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <Input
+                                        isClearable
+                                        labelPlacement="outside"
+                                        placeholder="Subject*"
+                                        radius="none"
+                                        size="lg"
+                                        classNames={{
+                                            input: "text-sm text-gray-600 font-light",
+                                            inputWrapper:
+                                                "px-5 rounded bg-gray-50/80 border-gray-100 focus-within:!bg-teal-50 focus-within:border-teal-100 border",
+                                        }}
+                                        {...register("subject")}
+                                        errorMessage={errors.subject?.message}
+                                        isInvalid={
+                                            errors.subject?.message != null
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <Textarea
+                                        placeholder="Message*"
+                                        radius="none"
+                                        size="lg"
+                                        classNames={{
+                                            input: "text-sm text-gray-600 font-light",
+                                            inputWrapper:
+                                                "px-5 pt-5 rounded bg-gray-50/80 border-gray-100 focus-within:!bg-teal-50 focus-within:border-teal-100 border",
+                                        }}
+                                        {...register("message")}
+                                        errorMessage={errors.message?.message}
+                                        isInvalid={
+                                            errors.message?.message != null
+                                        }
+                                    />
+                                </div>
 
-                            <Button
-                                className="font-medium bg-teal-400 text-teal-50"
-                                size="lg"
-                                radius="none"
-                            >
-                                Submit
-                            </Button>
-                        </div>
+                                <Button
+                                    type="submit"
+                                    className="rounded font-semibold bg-teal-400 text-teal-50"
+                                    radius="none"
+                                    size="md"
+                                >
+                                    Submit
+                                </Button>
+                            </div>
+                        </form>
 
                         <div>
                             <div>
@@ -78,7 +144,7 @@ const Contact = forwardRef<HTMLElement, ContactProps>(
                             </div>
 
                             <div className="flex flex-col mt-8 gap-5">
-                                <div className="flex flex-col gap-1">
+                                <div className="flex flex-col gap-2">
                                     <h3 className="text-gray-600 font-medium">
                                         Phone
                                     </h3>
@@ -87,7 +153,7 @@ const Contact = forwardRef<HTMLElement, ContactProps>(
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col gap-1">
+                                <div className="flex flex-col gap-2">
                                     <h3 className="text-gray-600 font-medium">
                                         Email
                                     </h3>
@@ -96,7 +162,7 @@ const Contact = forwardRef<HTMLElement, ContactProps>(
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col gap-1">
+                                <div className="flex flex-col gap-2">
                                     <h3 className="text-gray-600 font-medium">
                                         Website
                                     </h3>
@@ -108,7 +174,7 @@ const Contact = forwardRef<HTMLElement, ContactProps>(
                                 <div className="flex gap-5 mt-5">
                                     <a
                                         href="https://www.facebook.com/reynaldorayan.dev"
-                                        className="p-1 rounded-md border border-gray-100 hover:bg-teal-600 group"
+                                        className="p-2 rounded-md border border-gray-100 hover:bg-teal-600 group"
                                     >
                                         <RiFacebookLine
                                             size={22}
@@ -117,7 +183,7 @@ const Contact = forwardRef<HTMLElement, ContactProps>(
                                     </a>
                                     <a
                                         href="https://www.linkedin.com/in/reynaldorayan"
-                                        className="p-1 rounded-md border border-gray-100 hover:bg-teal-600 group"
+                                        className="p-2 rounded-md border border-gray-100 hover:bg-teal-600 group"
                                     >
                                         <RiLinkedinLine
                                             size={22}
@@ -126,7 +192,7 @@ const Contact = forwardRef<HTMLElement, ContactProps>(
                                     </a>
                                     <a
                                         href="https://github.com/reynaldorayan"
-                                        className="p-1 rounded-md border border-gray-100 hover:bg-teal-600 group"
+                                        className="p-2 rounded-md border border-gray-100 hover:bg-teal-600 group"
                                     >
                                         <RiGithubLine
                                             size={22}
