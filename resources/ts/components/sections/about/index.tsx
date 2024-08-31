@@ -15,7 +15,9 @@ const About = forwardRef<HTMLElement, AboutProps>(
                     <div className="flex flex-col gap-8">
                         <p className="">
                             I'm an enthusiastic full-stack developer with
-                            expertise in both front-end and back-end
+                            expertise in both{" "}
+                            <span className="font-semibold">front-end</span> and{" "}
+                            <span className="font-semibold">back-end</span>{" "}
                             development. I specialize in crafting scalable
                             solutions that address client needs, excel at
                             solving complex problems, and am committed to

@@ -13,10 +13,25 @@ const Header = ({ sections }: HeaderProps) => {
     const except = ["Welcome"];
 
     const handleNavigate = useCallback((ref: React.RefObject<HTMLElement>) => {
+        // if (ref.current) {
+        //     ref.current.scrollIntoView({
+        //         behavior: "smooth",
+
+        //     });
+        //     setIsOpen(false);
+        // }
         if (ref.current) {
-            ref.current.scrollIntoView({
+            const offset = 92; // Adjust based on your fixed header height
+            const topPosition =
+                ref.current.getBoundingClientRect().top +
+                window.scrollY -
+                offset;
+
+            window.scrollTo({
+                top: topPosition,
                 behavior: "smooth",
             });
+
             setIsOpen(false);
         }
     }, []);
@@ -29,7 +44,7 @@ const Header = ({ sections }: HeaderProps) => {
         const observerOptions = {
             root: null,
             rootMargin: "0px",
-            threshold: 0.5,
+            threshold: 0.65,
         };
 
         const observerCallback = (entries: IntersectionObserverEntry[]) => {

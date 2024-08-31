@@ -3,7 +3,8 @@ import { cn } from "@/utils/style";
 import { Button, Chip } from "@nextui-org/react";
 import { forwardRef, Ref, useState } from "react";
 import { RiGithubLine, RiLink } from "react-icons/ri";
-import { TbWorldWww } from "react-icons/tb";
+import portfolio from "@/assets/portfolio/porfolio.png";
+import comingSoon from "@/assets/portfolio/coming-soon.jpg";
 
 // Define prop types
 interface PortfolioProps {
@@ -17,7 +18,7 @@ interface Item {
     title: string;
     description: string;
     image: string;
-    technologies: string[];
+    technologies?: string[];
     github?: string;
     demo?: string;
 }
@@ -27,12 +28,40 @@ const items: Item[] = [
     {
         id: 1,
         category: "web",
-        title: "Website 1",
-        image: "https://picsum.photos/id/400/400/300",
-        technologies: ["React", "TailwindCSS"],
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        github: "https://github.com/reynaldorayan",
+        title: "reynaldorayan.dev",
+        image: portfolio,
+        technologies: ["vite", "reactjs", "tailwindcss", "nextui"],
+        description:
+            "My initial version of the portfolio site, crafted using Vite, showcases my work and skills.",
+        github: "https://github.com/reynaldorayan/reynaldorayan.dev",
         demo: "https://reynaldorayan.dev",
+    },
+    {
+        id: 2,
+        category: "mobile",
+        title: "Coming soon",
+        image: comingSoon,
+        description:
+            "Stay tuned for more updates! Exciting new features and content will be added to this portfolio site soon.",
+    },
+    {
+        id: 3,
+        category: "design",
+        title: "Coming soon",
+        image: comingSoon,
+        technologies: ["Figma"],
+        description:
+            "Stay tuned for more updates! Exciting new features and content will be added to this portfolio site soon",
+    },
+    {
+        id: 4,
+        category: "web",
+        title: "Coming soon",
+        image: comingSoon,
+        description:
+            "Stay tuned for more updates! Exciting new features and content will be added to this portfolio site soon.",
+        github: "#",
+        demo: "#",
     },
 ];
 
@@ -42,7 +71,7 @@ const filters = ["all", "design", "web", "mobile"];
 const Portfolio = forwardRef<HTMLElement, PortfolioProps>(
     ({ title }, ref: Ref<HTMLElement>) => {
         const [selectedFilter, setSelectedFilter] = useState<string>("all");
-        const [visibleItems, setVisibleItems] = useState<number>(3);
+        const [visibleItems, setVisibleItems] = useState<number>(2);
 
         // Handle filter change
         const handleFilterChange = (filter: string) => {
@@ -52,7 +81,7 @@ const Portfolio = forwardRef<HTMLElement, PortfolioProps>(
 
         // Handle show more
         const handleShowMore = () => {
-            setVisibleItems((prev) => prev + 3); // Show 3 more items on each click
+            setVisibleItems((prev) => prev + 2); // Show 3 more items on each click
         };
 
         // Filter items based on selected category
@@ -102,12 +131,12 @@ const Portfolio = forwardRef<HTMLElement, PortfolioProps>(
                                     key={item.id}
                                     className=" bg-gray-50 flex flex-col md:flex-row gap-5 h-full min-h-64 p-4 group transition-all ease-in-out"
                                 >
-                                    <div className="h-full lg:h-20 lg:w-48 flex flex-col gap-5">
-                                        <div className="overflow-hidden rounded">
+                                    <div className="h-full lg:w-64 flex flex-col gap-5">
+                                        <div className="overflow-hidden rounded border h-full flex">
                                             <img
                                                 src={item.image}
                                                 alt={item.title}
-                                                className="object-cover h-full w-full rounded group-hover:scale-110 transition-all duration-400 ease-in-out"
+                                                className="object-cover w-full rounded group-hover:scale-110 transition-all duration-400 ease-in-out"
                                             />
                                         </div>
                                     </div>
@@ -117,7 +146,7 @@ const Portfolio = forwardRef<HTMLElement, PortfolioProps>(
                                                 <h3 className="text-lg font-medium">
                                                     {item.title}
                                                 </h3>
-                                                <p className="text-gray-400 text-xs uppercase">
+                                                <p className="text-gray-400 text-sm uppercase">
                                                     {item.category}
                                                 </p>
                                             </div>
@@ -151,17 +180,23 @@ const Portfolio = forwardRef<HTMLElement, PortfolioProps>(
                                             {item.description}
                                         </p>
 
-                                        <div className="flex gap-2">
-                                            {item.technologies.map((tech) => (
-                                                <Chip
-                                                    size="sm"
-                                                    className="border bg-gray-100 text-teal-600 border-gray-100 tracking-wide"
-                                                    key={tech}
-                                                >
-                                                    {tech}
-                                                </Chip>
-                                            ))}
-                                        </div>
+                                        {item.technologies ? (
+                                            <div className="flex flex-wrap gap-2">
+                                                {item.technologies.map(
+                                                    (tech) => (
+                                                        <Chip
+                                                            size="sm"
+                                                            className="border bg-gray-100 text-teal-600 border-gray-100 tracking-wide"
+                                                            key={tech}
+                                                        >
+                                                            {tech}
+                                                        </Chip>
+                                                    )
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <></>
+                                        )}
                                     </div>
                                 </div>
                             ))}
