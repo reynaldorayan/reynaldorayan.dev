@@ -51,7 +51,7 @@ const Header = ({ sections }: HeaderProps) => {
         const observerOptions = {
             root: null,
             rootMargin: "0px",
-            threshold: 0.9,
+            threshold: isMobile ? 0 : 0.9,
         };
 
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -112,7 +112,10 @@ const Header = ({ sections }: HeaderProps) => {
                     }}
                     className="text-xl font-semibold text-teal-500 cursor-pointer flex items-center gap-3"
                 >
-                    <img src="/storage/logo.png" className="lg:h-14 lg:w-14 opacity-95 -rotate-3" />
+                    <img
+                        src="/storage/logo.png"
+                        className="lg:h-14 lg:w-14 opacity-95 -rotate-3"
+                    />
                 </div>
 
                 {/* Desktop Menu */}
