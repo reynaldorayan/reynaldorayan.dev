@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { SectionItem } from "@/pages/home";
 import { cn } from "@/utils/style";
 
@@ -8,12 +8,9 @@ export type HeaderProps = {
 
 const Header = ({ sections }: HeaderProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [scrolledSection, setScrolledSection] = useState<string | null>(null);
 
-    const except = ["Welcome", "About"];
-
-    const validSections = sections.filter(
-        (section) => section.ref.current !== null
-    );
+    const except = ["Welcome"];
 
     const handleNavigate = useCallback((ref: React.RefObject<HTMLElement>) => {
         if (ref.current) {
@@ -23,6 +20,42 @@ const Header = ({ sections }: HeaderProps) => {
             setIsOpen(false);
         }
     }, []);
+
+    const validSections = sections.filter(
+        (section) => section.ref.current !== null
+    );
+
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.5,
+        };
+
+        const observerCallback = (entries: IntersectionObserverEntry[]) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const section = entry.target.getAttribute("data-title");
+                    setScrolledSection(section);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(
+            observerCallback,
+            observerOptions
+        );
+
+        validSections.forEach((section) => {
+            if (section.ref.current) {
+                observer.observe(section.ref.current);
+            }
+        });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [validSections]);
 
     const renderLinks = (isMobile: boolean = false) =>
         validSections
@@ -36,8 +69,10 @@ const Header = ({ sections }: HeaderProps) => {
                         handleNavigate(link.ref);
                     }}
                     className={cn(
-                        "font-light",
-                        isMobile ? "block px-3 py-2 rounded-md text-base" : ""
+                        isMobile ? "block px-3 py-2 rounded-md" : "",
+                        scrolledSection === link.title
+                            ? "text-teal-500"
+                            : "text-gray-600"
                     )}
                 >
                     {link.link}

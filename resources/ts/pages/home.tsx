@@ -30,7 +30,7 @@ export default function Home() {
     const sections: SectionItem[] = useMemo(
         () => [
             {
-                link: "Welcome",
+                link: "Home",
                 title: "Welcome",
                 component: Welcome,
                 ref: welcomeRef,

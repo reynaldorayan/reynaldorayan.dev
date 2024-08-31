@@ -1,5 +1,5 @@
 import Section from "@/components/section";
-import Button from "@/components/ui/button";
+import { Button } from "@nextui-org/react";
 import { forwardRef, Ref } from "react";
 
 type WelcomeProps = {
@@ -24,7 +24,7 @@ const Welcome = forwardRef<HTMLElement, WelcomeProps>(
                             Full-stack / Software Developer
                         </p>
 
-                        <Button className="bg-teal-500 py-4 px-6 rounded text-white w-fit">
+                        <Button className="bg-teal-500 py-6 px-6 rounded text-white w-fit">
                             Download Resume
                         </Button>
                     </div>

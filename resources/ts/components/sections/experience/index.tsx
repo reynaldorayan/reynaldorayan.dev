@@ -88,7 +88,7 @@ const Experience = forwardRef<HTMLElement, ExperienceProps>(
                         />
                         <ExperienceItem
                             date="Sep 2024 - Present"
-                            position="Software Developer"
+                            position="Junior Programmer"
                             company="Maryhill College, Inc."
                             location="Lucena City, PH"
                             description="Acquiring expertise in GIT for version control and Docker for containerization, while managing similar tasks as previously."

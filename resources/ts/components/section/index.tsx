@@ -8,7 +8,11 @@ type CustomInputProps = PropsWithChildren & {
 const Section = forwardRef<HTMLElement, CustomInputProps>(
     ({ title, children }, ref: Ref<HTMLInputElement>) => {
         return (
-            <section ref={ref} className={cn("pb-20 min-h-screen")}>
+            <section
+                ref={ref}
+                data-title={title}
+                className={cn("pb-20 min-h-screen")}
+            >
                 {title ? (
                     <div className="flex justify-center py-12 border-y border-gray-200/70">
                         <h1 className="text-xl font-semibold tracking-wide">

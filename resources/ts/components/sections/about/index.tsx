@@ -67,24 +67,33 @@ const About = forwardRef<HTMLElement, AboutProps>(
                         </div>
 
                         <div className="flex gap-5">
-                            <div className="p-1 rounded-md border border-gray-100">
+                            <a
+                                href="https://www.facebook.com/reynaldorayan.dev"
+                                className="p-1 rounded-md border border-gray-100 hover:bg-teal-600 group"
+                            >
                                 <RiFacebookLine
                                     size={22}
-                                    className="text-teal-500"
+                                    className="text-teal-500 group-hover:text-teal-50 transition-all duration-300 ease-in-out"
                                 />
-                            </div>
-                            <div className="p-1 rounded-md border border-gray-100">
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/reynaldorayan"
+                                className="p-1 rounded-md border border-gray-100 hover:bg-teal-600 group"
+                            >
                                 <RiLinkedinLine
                                     size={22}
-                                    className="text-teal-500"
+                                    className="text-teal-500 group-hover:text-teal-50 transition-all duration-300 ease-in-out"
                                 />
-                            </div>
-                            <div className="p-1 rounded-md border border-gray-100">
+                            </a>
+                            <a
+                                href="https://github.com/reynaldorayan"
+                                className="p-1 rounded-md border border-gray-100 hover:bg-teal-600 group"
+                            >
                                 <RiGithubLine
                                     size={22}
-                                    className="text-teal-500"
+                                    className="text-teal-500 group-hover:text-teal-50 transition-all duration-300 ease-in-out"
                                 />
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
